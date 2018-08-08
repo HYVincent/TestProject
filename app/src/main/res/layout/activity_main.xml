@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-   <!-- <com.example.administrator.testview.HistoryDataView
+    <com.example.administrator.testview.HistoryDataView
         android:id="@+id/history_detail_hdv"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />-->
+        android:layout_height="match_parent" />
 
    <!-- <com.example.administrator.testview.ClockView
         android:id="@+id/shizhong"
@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />-->
 
-    <com.example.administrator.testview.VerticalScaleView
+    <!--<com.example.administrator.testview.VerticalScaleView
         android:id="@+id/verticalScaleView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
 
 </LinearLayout>

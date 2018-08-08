@@ -34,6 +34,8 @@ import java.util.List;
 public class HistoryDataView extends View {
 
     private Context mContext;
+    private Canvas mcavas;
+    private float offset_x1;
 
 
     public HistoryDataView(Context context, @Nullable AttributeSet attrs) {
@@ -224,6 +226,7 @@ public class HistoryDataView extends View {
         drawTopTag(canvas);
         drawBgLine(canvas);
         canvas.save();
+        mcavas=canvas;
         drawWhiteDegreeDetail(canvas);
     }
 
@@ -391,28 +394,36 @@ public class HistoryDataView extends View {
                 touchX = event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
-                offset_x = event.getX() - touchX;
+                offset_x1 = event.getX() - touchX;
                 //降低滚动的速度
 //                offset_x = offset_x/20;
                 //在当前位置基础加上偏移量
-                offset_x_d += offset_x;
+
+                //TODO
+               /* offset_x_d += offset_x;
                 if (offset_x_d > 0) {
                     offset_x_d = 0;
                 }
                 if(offset_x_max < 0 && offset_x_d *(-1) > offset_x_max){
                     offset_x_d = (-1) * offset_x_max;
-                }
-                if(offset_x_d < 0 && offset_x_d > offset_x_max * (-1)){
-                    postInvalidate();
-                }
+                }*/
+                reLayout();
                 break;
             case MotionEvent.ACTION_UP:
+                /*if(offset_x_d < 0 && offset_x_d > offset_x_max * (-1)){
+                    postInvalidate();
+                }*/
+                reLayout();
 //                invalidate();
                 break;
             default:
                 break;
         }
         return true;
+    }
+
+    private void reLayout() {
+        mcavas.translate(offset_x1,0);
     }
 
 

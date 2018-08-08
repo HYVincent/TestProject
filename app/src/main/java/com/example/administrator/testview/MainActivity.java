@@ -17,13 +17,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       /* historyDataView = findViewById(R.id.history_detail_hdv);
-        historyDataView.setDataBeans(getTestData());*/
+        historyDataView = findViewById(R.id.history_detail_hdv);
+        historyDataView.setDataBeans(getTestData());
 
 //        clockView = findViewById(R.id.shizhong);
 
-        verticalScaleView = findViewById(R.id.verticalScaleView);
-        verticalScaleView.setRange(1,100);
+       /* verticalScaleView = findViewById(R.id.verticalScaleView);
+        verticalScaleView.setRange(1,100);*/
     }
 
     @Override
