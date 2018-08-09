@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private HistoryDataView historyDataView;
 
-    private boolean b = true;
+    private boolean b = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
