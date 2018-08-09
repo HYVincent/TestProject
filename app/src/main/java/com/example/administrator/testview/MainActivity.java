@@ -10,8 +10,6 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private HistoryDataView historyDataView;
-    private ClockView clockView;
-    private VerticalScaleView verticalScaleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,17 +17,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         historyDataView = findViewById(R.id.history_detail_hdv);
         historyDataView.setDataBeans(getTestData());
-
-//        clockView = findViewById(R.id.shizhong);
-
-       /* verticalScaleView = findViewById(R.id.verticalScaleView);
-        verticalScaleView.setRange(1,100);*/
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        clockView.startClock();
     }
 
     private List<DataBean> dataBeans = new ArrayList<>();

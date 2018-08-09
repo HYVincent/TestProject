@@ -11,20 +11,4 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent" />
 
-   <!-- <com.example.administrator.testview.ClockView
-        android:id="@+id/shizhong"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-
-
-   <!-- <com.example.administrator.testview.ShakeMaps
-        android:id="@+id/shortcut"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-
-    <!--<com.example.administrator.testview.VerticalScaleView
-        android:id="@+id/verticalScaleView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
-
 </LinearLayout>

@@ -33,4 +33,10 @@
 
     <color name="color_black_000000">#000000</color>
 
+
+    <color name="color_red_FF6347">#FF6347</color>
+
+    <color name="color_gray_9fa1a9">#9fa1a9</color>
+
+
 </resources>
