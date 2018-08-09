@@ -2,6 +2,7 @@ package com.example.administrator.testview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +12,24 @@ public class MainActivity extends AppCompatActivity {
 
     private HistoryDataView historyDataView;
 
+    private boolean b = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         historyDataView = findViewById(R.id.history_detail_hdv);
         historyDataView.setDataBeans(getTestData());
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(b){
+                    b = false;
+                }else {
+                    b = true;
+                }
+                historyDataView.changeModel(b);
+            }
+        });
     }
 
     private List<DataBean> dataBeans = new ArrayList<>();

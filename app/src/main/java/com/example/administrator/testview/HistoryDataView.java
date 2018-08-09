@@ -18,7 +18,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,16 +44,16 @@ public class HistoryDataView extends BaseScrollerView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mViewWidth = View.MeasureSpec.getSize(widthMeasureSpec);
-        mViewHeight = View.MeasureSpec.getSize(heightMeasureSpec);
-        Log.d(TAG, "onSizeChanged111: 【"+mViewWidth+"】"+"【"+mViewHeight+"】");
+        mViewWidth = MeasureSpec.getSize(widthMeasureSpec);
+        mViewHeight = MeasureSpec.getSize(heightMeasureSpec);
+//        Log.d(TAG, "onSizeChanged111: 【"+mViewWidth+"】"+"【"+mViewHeight+"】");
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         mViewWidth = w;
         mViewHeight = h;
-        Log.d(TAG, "onSizeChanged222: 【"+mViewWidth+"】"+"【"+mViewHeight+"】");
+//        Log.d(TAG, "onSizeChanged222: 【"+mViewWidth+"】"+"【"+mViewHeight+"】");
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
@@ -125,6 +124,7 @@ public class HistoryDataView extends BaseScrollerView {
         this.timeType = timeType;
         invalidate();
     }
+
 
     /**
      * 改变模式 true 白皙度  false 水分值
@@ -198,7 +198,7 @@ public class HistoryDataView extends BaseScrollerView {
     protected void onDrawContent(Canvas canvas) {
         if(mMaxOffsetX == 0 ){
             mMaxOffsetX = mStartDataX+(dataBeans.size()-1) * mItemDataMargin - mViewWidth + mEndDataMaginRight;
-            Log.d(TAG, "onSizeChanged333:【"+mItemDataMargin+"】"+"【"+mViewWidth+"】"+"【"+mStartDataX+"】"+"【"+mMaxOffsetX+"】"+"【"+mEndDataMaginRight+"】");
+//            Log.d(TAG, "onSizeChanged333:【"+mItemDataMargin+"】"+"【"+mViewWidth+"】"+"【"+mStartDataX+"】"+"【"+mMaxOffsetX+"】"+"【"+mEndDataMaginRight+"】");
             setMaxVal((int)mMaxOffsetX);
         }
         if (isBXD) {
@@ -212,8 +212,10 @@ public class HistoryDataView extends BaseScrollerView {
         drawBgLine(canvas);
         //保存和平移
         canvas.save();
-        canvas.translate(mOffsetX,0);
-        Log.d(TAG, "drawWhiteDegree: 滑动偏移量-->【"+mOffsetX+"】");
+        if(mStartDataX + (dataBeans.size()-1) * mItemDataMargin > mViewWidth){
+            canvas.translate(mOffsetX,0);
+        }
+//        Log.d(TAG, "drawWhiteDegree: 滑动偏移量-->【"+mOffsetX+"】");
         // 绘制白皙度 0~100 0 2 4 6 8 10 小于20的时候不需要
         //绘制数据内容
         drawWhiteDegreeDetail(canvas);
@@ -249,6 +251,7 @@ public class HistoryDataView extends BaseScrollerView {
     }
 
 
+    private float minY = 0;
 
 
     /**
@@ -268,12 +271,15 @@ public class HistoryDataView extends BaseScrollerView {
             path.moveTo(startX,startY);
             int count = dataBeans.size();
             circlePoint = new Point[count];
-            Log.d(TAG, "drawWhiteDegreeDetail: 共【"+count+"】个数据");
+//            Log.d(TAG, "drawWhiteDegreeDetail: 共【"+count+"】个数据");
+            float x, y, x2, y2, x3, y3, x4, y4;
             for (int i = 0; i < count; i++) {
                 // x,y表示当前点  x4,y4表示下一个点 x2,x3都是属于中间的点
-                float x, y, x2, y2, x3, y3, x4, y4;
                 x = startX + mItemDataMargin * i;
                 y = getWhiteDegreeY(dataBeans.get(i));
+                if(y > minY){
+                    minY = y;
+                }
                 if(i == count -1){
                     x4 = x;
                     y4 = y;
@@ -300,6 +306,7 @@ public class HistoryDataView extends BaseScrollerView {
                 }else {
                     path.cubicTo(x2, y2, x3, y3, x4, y4);
                     path2.cubicTo(x2, y2, x3, y3, x4, y4);
+                    Log.d(TAG, "drawWhiteDegreeDetail: 白皙度y2-->"+y2+"   y3-->"+y3+"  y4-->"+y4);
                 }
 //                canvas.drawCircle(x, y, DpUtil.dp2px(mContext, 3), mCircleDotPaint);
                 circlePoint[i] = new Point((int) x,(int) y);
@@ -322,7 +329,12 @@ public class HistoryDataView extends BaseScrollerView {
             canvas.drawRect(left, top, right, bottom, rectPaint);
             for (int i =0;i<circlePoint.length;i++){
                 Rect valueRect = new Rect();
-                String valueStr = String.valueOf(dataBeans.get(i).getWhiteDegreeValue());
+                String valueStr;
+                if(isBXD){
+                    valueStr = String.valueOf(dataBeans.get(i).getWhiteDegreeValue());
+                }else {
+                    valueStr = String.valueOf(dataBeans.get(i).getMoistureValue());
+                }
                 mValuePaint.getTextBounds(valueStr, 0, valueStr.length(), valueRect);
                 canvas.drawText(valueStr, circlePoint[i].x - valueRect.width() / 2,
                         circlePoint[i].y - DpUtil.dp2px(mContext, 5) - valueRect.height(), mValuePaint);
@@ -345,7 +357,7 @@ public class HistoryDataView extends BaseScrollerView {
         }else {
             //按时间绘制
             dateStr = DateUtil.getDateString(DateUtil.DATE_FORMAT_HM,dataBean.getTime());
-        }
+        } //f
         Rect rect = new Rect();
         mValuePaint.getTextBounds(dateStr,0,dateStr.length(),rect);
         mValuePaint.setColor(ContextCompat.getColor(mContext,R.color.color_gray_9fa1a9));
@@ -361,9 +373,11 @@ public class HistoryDataView extends BaseScrollerView {
      */
     private float getWhiteDegreeY(DataBean dataBean) {
         if(isBXD){
+            Log.d(TAG, "getWhiteDegreeY: 白皙度数据");
             return mViewHeight - mEndLineMarginButtom - mItemLineMargin * 5 * dataBean.getWhiteDegreeValue() / 100;
         }else {
-            return mViewHeight - mEndLineMarginButtom - mItemLineMargin * 5 * dataBean.getWhiteDegreeValue() / 60;
+            Log.d(TAG, "getWhiteDegreeY: 水分值数据-->");
+            return mViewHeight - mEndLineMarginButtom - mItemLineMargin * 5 * dataBean.getMoistureValue() / 60;
         }
     }
 
