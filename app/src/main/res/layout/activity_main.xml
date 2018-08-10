@@ -8,13 +8,43 @@
     tools:context=".MainActivity">
 
     <Button
+        android:visibility="gone"
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <com.example.administrator.testview.HistoryDataView
+        android:visibility="gone"
         android:id="@+id/history_detail_hdv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp">
+
+        <com.example.administrator.testview.WhiteDegreeValueShowView
+            android:id="@+id/cav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.example.administrator.testview.CircleAndLineView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+
+<Button
+    android:id="@+id/btn_rotate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+    <com.example.administrator.testview.WhiteDegreeImageView
+        android:id="@+id/testImageView"
+        android:layout_width="match_parent"
+        android:layout_height="210dp" />
+
 
 </LinearLayout>
