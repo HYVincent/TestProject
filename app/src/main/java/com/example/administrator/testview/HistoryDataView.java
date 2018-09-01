@@ -111,6 +111,7 @@ public class HistoryDataView extends BaseScrollerView {
     private Point[] circlePoint;
 
     private Matrix matrix;
+    private Paint mLinePaint;
 
     /*设置数据*/
     public void setDataBeans(List<DataBean> datas) {
@@ -191,6 +192,11 @@ public class HistoryDataView extends BaseScrollerView {
 //        rectPaint.setColor(ContextCompat.getColor(mContext, R.color.color_black_000000));
         rectPaint.setStrokeWidth(DpUtil.dp2px(mContext, 8));
         rectPaint.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_ATOP));
+
+        mLinePaint = new Paint();
+        mLinePaint.setColor(ContextCompat.getColor(mContext, R.color.color_red_fe728c));
+        mLinePaint.setStrokeWidth(DpUtil.dp2px(mContext,1));
+        mLinePaint.setStyle(Paint.Style.STROKE);
     }
 
     private static final String TAG = "历史数据";
@@ -289,6 +295,7 @@ public class HistoryDataView extends BaseScrollerView {
         //绘制地下的文字
         Path path = new Path();
         Path path2 = new Path();
+        Path path3 = new Path();
         if (dataBeans.size() > 0) {
             float startX = mStartDataX;
             float startY = mViewHeight - mEndLineMarginButtom;
@@ -318,6 +325,7 @@ public class HistoryDataView extends BaseScrollerView {
                 if (i == 0) {
                     // 形成封闭的图形
                     path2.moveTo(x, y);
+                    path3.moveTo(x,y);
                     path.moveTo(x, startY);
                     path.lineTo(x, startY);
                     path.lineTo(x, y);
@@ -330,6 +338,7 @@ public class HistoryDataView extends BaseScrollerView {
                 } else {
                     path.cubicTo(x2, y2, x3, y3, x4, y4);
                     path2.cubicTo(x2, y2, x3, y3, x4, y4);
+                    path3.cubicTo(x2, y2, x3, y3, x4, y4);
                     Log.d(TAG, "drawWhiteDegreeDetail: 白皙度y2-->" + y2 + "   y3-->" + y3 + "  y4-->" + y4);
                 }
 //                canvas.drawCircle(x, y, DpUtil.dp2px(mContext, 3), mCircleDotPaint);
@@ -351,6 +360,8 @@ public class HistoryDataView extends BaseScrollerView {
             rectPaint.setShader(lg);
             canvas.drawPath(path, mWhiteDegreePaint);
             canvas.drawRect(left, top, right, bottom, rectPaint);
+            //注意绘制顺序，顺序错误将无法显示粗线
+            canvas.drawPath(path3,mLinePaint);
             for (int i = 0; i < circlePoint.length; i++) {
                 Rect valueRect = new Rect();
                 String valueStr;
@@ -407,14 +418,6 @@ public class HistoryDataView extends BaseScrollerView {
         }
     }
 
-    /**
-     * 这里绘制水分值
-     *
-     * @param canvas
-     */
-    private void drawMositureDetail(Canvas canvas) {
-        //绘制水分值 0~60 0 20 30 40 50 60 小于20的时候就不保存 大于60=60
 
-    }
 
 }
